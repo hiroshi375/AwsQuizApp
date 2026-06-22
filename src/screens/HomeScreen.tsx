@@ -9,6 +9,11 @@ import type { RootStackParamList } from "../navigation/RootNavigator";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
+//const ADMIN_BUTTON_COLOR = "#2f3a46";
+const ADMIN_BUTTON_COLOR = "#1f2933";
+//const ADMIN_BUTTON_COLOR = "#2f4f66";
+const ADMIN_BUTTON_TEXT_COLOR = "#ffffff";
+
 export default function HomeScreen({ navigation }: Props) {
     const { signOut } = useAuthenticator();
     const [email, setEmail] = useState("");
@@ -44,11 +49,23 @@ export default function HomeScreen({ navigation }: Props) {
             {isAdmin && (
                 <View style={styles.button}>
                     <AppButton
+                        buttonColor={ADMIN_BUTTON_COLOR}
+                        textColor={ADMIN_BUTTON_TEXT_COLOR}
                         onPress={() =>
                             navigation.navigate("AdminQuestionCreate")
                         }
                     >
                         管理者: 問題を登録
+                    </AppButton>
+
+                    <AppButton
+                        buttonColor={ADMIN_BUTTON_COLOR}
+                        textColor={ADMIN_BUTTON_TEXT_COLOR}
+                        onPress={() =>
+                            navigation.navigate("AdminQuestionImport")
+                        }
+                    >
+                        管理者: 問題CSVインポート
                     </AppButton>
                 </View>
             )}
