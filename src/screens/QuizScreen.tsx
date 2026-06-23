@@ -39,6 +39,8 @@ type SolutionItem = {
     explanationText?: string | null;
 };
 
+type ChoiceFeedbackType = "correct" | "incorrect" | "normal";
+
 export default function QuizScreen({ route, navigation }: Props) {
     const { examId } = route.params;
 
@@ -74,6 +76,32 @@ export default function QuizScreen({ route, navigation }: Props) {
             (solution) => solution.questionId === currentQuestion.id,
         );
     }, [solutions, currentQuestion]);
+
+    const correctChoiceIds = useMemo(() => {
+        return currentSolution?.correctChoiceIds ?? [];
+    }, [currentSolution]);
+
+    const getChoiceFeedbackType = useCallback(
+        (choiceId: string): ChoiceFeedbackType => {
+            if (!answered) {
+                return "normal";
+            }
+
+            const isCorrectChoice = correctChoiceIds.includes(choiceId);
+            const isSelectedChoice = selectedChoiceIds.includes(choiceId);
+
+            if (isCorrectChoice) {
+                return "correct";
+            }
+
+            if (isSelectedChoice && !isCorrectChoice) {
+                return "incorrect";
+            }
+
+            return "normal";
+        },
+        [answered, correctChoiceIds, selectedChoiceIds],
+    );
 
     const loadQuiz = useCallback(async () => {
         try {
@@ -277,19 +305,58 @@ export default function QuizScreen({ route, navigation }: Props) {
 
             {currentChoices.map((choice) => {
                 const selected = selectedChoiceIds.includes(choice.id);
+                const feedbackType = getChoiceFeedbackType(choice.id);
 
                 return (
                     <Pressable
                         key={choice.id}
+                        disabled={answered}
                         onPress={() => toggleChoice(choice.id)}
                         style={[
                             styles.choice,
-                            selected && styles.choiceSelected,
+                            selected && !answered && styles.choiceSelected,
+                            feedbackType === "correct" && styles.choiceCorrect,
+                            feedbackType === "incorrect" &&
+                                styles.choiceIncorrect,
                         ]}
                     >
-                        <Text style={styles.choiceText}>
-                            {choice.label}. {choice.choiceText}
-                        </Text>
+                        {feedbackType === "correct" && (
+                            <View style={styles.correctBadge}>
+                                <Text style={styles.correctBadgeText}>
+                                    正解
+                                </Text>
+                            </View>
+                        )}
+
+                        {feedbackType === "incorrect" && (
+                            <View style={styles.incorrectBadge}>
+                                <Text style={styles.incorrectBadgeText}>
+                                    回答は不正解です
+                                </Text>
+                            </View>
+                        )}
+
+                        <View style={styles.choiceRow}>
+                            <Text
+                                style={[
+                                    styles.choiceIcon,
+                                    feedbackType === "correct" &&
+                                        styles.choiceIconCorrect,
+                                    feedbackType === "incorrect" &&
+                                        styles.choiceIconIncorrect,
+                                ]}
+                            >
+                                {feedbackType === "incorrect"
+                                    ? "⊗"
+                                    : selected
+                                      ? "◉"
+                                      : "○"}
+                            </Text>
+
+                            <Text style={styles.choiceText}>
+                                {choice.label}. {choice.choiceText}
+                            </Text>
+                        </View>
                     </Pressable>
                 );
             })}
@@ -333,17 +400,83 @@ const styles = StyleSheet.create({
     },
     choice: {
         borderWidth: 1,
-        borderColor: "#ccc",
-        borderRadius: 8,
-        padding: 12,
-        backgroundColor: "#fff",
+        borderColor: "#d8dce8",
+        borderRadius: 4,
+        paddingVertical: 18,
+        paddingHorizontal: 18,
+        backgroundColor: "#ffffff",
     },
+
     choiceSelected: {
         borderColor: "#4b6f8f",
         backgroundColor: "#e8f1f8",
     },
+
+    choiceCorrect: {
+        borderColor: "#166534",
+        backgroundColor: "#eef9f2",
+    },
+
+    choiceIncorrect: {
+        borderColor: "#ef4444",
+        backgroundColor: "#fff1f2",
+    },
+
+    choiceRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 14,
+    },
+
+    choiceIcon: {
+        width: 28,
+        textAlign: "center",
+        fontSize: 24,
+        color: "#4b5563",
+    },
+
+    choiceIconCorrect: {
+        color: "#166534",
+    },
+
+    choiceIconIncorrect: {
+        color: "#7f1d1d",
+    },
+
     choiceText: {
+        flex: 1,
         fontSize: 16,
+        lineHeight: 24,
+        color: "#1f2937",
+        fontWeight: "600",
+    },
+
+    correctBadge: {
+        alignSelf: "flex-start",
+        marginBottom: 12,
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        backgroundColor: "#9fdcb7",
+    },
+
+    correctBadgeText: {
+        color: "#0f3f2b",
+        fontSize: 14,
+        fontWeight: "bold",
+    },
+
+    incorrectBadge: {
+        alignSelf: "flex-start",
+        marginBottom: 12,
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        backgroundColor: "#fecaca",
+    },
+
+    incorrectBadgeText: {
+        color: "#7f1d1d",
+        fontSize: 14,
+        fontWeight: "bold",
     },
     resultBox: {
         marginTop: 16,
