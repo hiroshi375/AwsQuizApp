@@ -6,6 +6,7 @@ import {
     ScrollView,
     Alert,
     Pressable,
+    Platform,
 } from "react-native";
 import AppButton from "../components/AppButton";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -40,6 +41,12 @@ type SolutionItem = {
 };
 
 type ChoiceFeedbackType = "correct" | "incorrect" | "normal";
+
+const APP_FONT_FAMILY = Platform.select({
+    ios: "Hiragino Sans",
+    android: "sans-serif",
+    default: undefined,
+});
 
 export default function QuizScreen({ route, navigation }: Props) {
     const { examId } = route.params;
@@ -386,24 +393,31 @@ export default function QuizScreen({ route, navigation }: Props) {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 16,
+        paddingHorizontal: 12,
+        paddingVertical: 16,
         gap: 12,
     },
     progress: {
-        fontSize: 14,
-        color: "#666",
+        fontFamily: APP_FONT_FAMILY,
+        fontSize: 16,
+        color: "#25283a",
+        fontWeight: "700",
     },
     question: {
+        fontFamily: APP_FONT_FAMILY,
         fontSize: 18,
+        lineHeight: 30,
         fontWeight: "700",
-        marginBottom: 12,
+        color: "#25283a",
+        marginBottom: 18,
+        letterSpacing: 0.2,
     },
     choice: {
         borderWidth: 1,
         borderColor: "#d8dce8",
-        borderRadius: 4,
-        paddingVertical: 18,
-        paddingHorizontal: 18,
+        borderRadius: 2,
+        paddingVertical: 16,
+        paddingHorizontal: 12,
         backgroundColor: "#ffffff",
     },
 
@@ -425,14 +439,14 @@ const styles = StyleSheet.create({
     choiceRow: {
         flexDirection: "row",
         alignItems: "center",
-        gap: 14,
+        gap: 8,
     },
 
     choiceIcon: {
-        width: 28,
+        width: 24,
         textAlign: "center",
-        fontSize: 24,
-        color: "#4b5563",
+        fontSize: 22,
+        color: "#6b6f85",
     },
 
     choiceIconCorrect: {
@@ -445,10 +459,12 @@ const styles = StyleSheet.create({
 
     choiceText: {
         flex: 1,
-        fontSize: 16,
-        lineHeight: 24,
-        color: "#1f2937",
-        fontWeight: "600",
+        fontFamily: APP_FONT_FAMILY,
+        fontSize: 15,
+        lineHeight: 23,
+        color: "#4f5268",
+        fontWeight: "700",
+        letterSpacing: 0.1,
     },
 
     correctBadge: {
