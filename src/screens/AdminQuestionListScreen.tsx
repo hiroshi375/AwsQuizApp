@@ -386,9 +386,6 @@ export default function AdminQuestionListScreen({ navigation }: Props) {
                         </Text>
                     </Pressable>
 
-                    {/*
-                      AdminQuestionEditScreen を作成後に有効化してください。
-
                     <Pressable
                         style={({ pressed }) => [
                             styles.smallButton,
@@ -403,7 +400,6 @@ export default function AdminQuestionListScreen({ navigation }: Props) {
                     >
                         <Text style={styles.smallButtonText}>編集</Text>
                     </Pressable>
-                    */}
                 </View>
             </View>
         );
