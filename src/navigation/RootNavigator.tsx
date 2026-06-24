@@ -15,6 +15,7 @@ import AdminExamEditScreen from "../screens/AdminExamEditScreen";
 import AdminQuestionListScreen from "../screens/AdminQuestionListScreen";
 import AdminQuestionEditScreen from "../screens/AdminQuestionEditScreen";
 import QuizHistoryScreen from "../screens/QuizHistoryScreen";
+import ReviewScreen from "../screens/ReviewScreen";
 
 export type RootStackParamList = {
     Home: undefined;
@@ -37,6 +38,7 @@ export type RootStackParamList = {
         questionId: string;
     };
     QuizHistory: undefined;
+    Review: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -124,6 +126,12 @@ export default function RootNavigator() {
                     name="QuizHistory"
                     component={QuizHistoryScreen}
                     options={{ title: "受験履歴" }}
+                />
+
+                <Stack.Screen
+                    name="Review"
+                    component={ReviewScreen}
+                    options={{ title: "復習" }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

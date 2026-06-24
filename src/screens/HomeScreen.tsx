@@ -50,6 +50,10 @@ export default function HomeScreen({ navigation }: Props) {
                 受験履歴を見る
             </AppButton>
 
+            <AppButton onPress={() => navigation.navigate("Review")}>
+                間違えた問題を復習
+            </AppButton>
+
             {isAdmin && (
                 <View style={styles.button}>
                     <AppButton
