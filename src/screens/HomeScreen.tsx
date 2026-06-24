@@ -56,6 +56,13 @@ export default function HomeScreen({ navigation }: Props) {
                         管理者: 試験情報を登録
                     </AppButton>
                     <AppButton
+                        buttonColor="#2f3a46"
+                        textColor="#ffffff"
+                        onPress={() => navigation.navigate("AdminExamList")}
+                    >
+                        管理者: 試験情報一覧
+                    </AppButton>
+                    <AppButton
                         buttonColor={ADMIN_BUTTON_COLOR}
                         textColor={ADMIN_BUTTON_TEXT_COLOR}
                         onPress={() =>
