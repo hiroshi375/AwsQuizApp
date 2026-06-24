@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import AppButton from "../components/AppButton";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { useFocusEffect } from "@react-navigation/native";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
 import { useAuthenticator } from "@aws-amplify/ui-react-native";
-
+import { client } from "../lib/client";
 import type { RootStackParamList } from "../navigation/RootNavigator";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
@@ -17,33 +18,60 @@ const ADMIN_BUTTON_TEXT_COLOR = "#ffffff";
 export default function HomeScreen({ navigation }: Props) {
     const { signOut } = useAuthenticator();
     const [email, setEmail] = useState("");
+    const [displayName, setDisplayName] = useState("");
     const [isAdmin, setIsAdmin] = useState(false);
 
-    useEffect(() => {
-        const loadUser = async () => {
-            try {
-                const user = await getCurrentUser();
-                setEmail(user.signInDetails?.loginId ?? user.username);
+    useFocusEffect(
+        useCallback(() => {
+            const loadUser = async () => {
+                try {
+                    const user = await getCurrentUser();
 
-                const session = await fetchAuthSession();
-                const groups = session.tokens?.accessToken.payload[
-                    "cognito:groups"
-                ] as string[] | undefined;
+                    const loginEmail =
+                        user.signInDetails?.loginId ?? user.username ?? "";
 
-                setIsAdmin(groups?.includes("Admin") ?? false);
-            } catch (error) {
-                console.error("Load user error:", error);
-                setIsAdmin(false);
-            }
-        };
+                    setEmail(loginEmail);
 
-        void loadUser();
-    }, []);
+                    const profileResult = await client.models.UserProfile.list({
+                        filter: {
+                            userId: {
+                                eq: user.userId,
+                            },
+                        },
+                        limit: 1,
+                    });
+
+                    if (profileResult.errors) {
+                        console.error(
+                            "UserProfile list errors:",
+                            profileResult.errors,
+                        );
+                    }
+
+                    const profile = profileResult.data?.[0];
+
+                    setDisplayName(profile?.displayName?.trim() ?? "");
+
+                    const session = await fetchAuthSession();
+                    const groups = session.tokens?.accessToken.payload[
+                        "cognito:groups"
+                    ] as string[] | undefined;
+
+                    setIsAdmin(groups?.includes("Admin") ?? false);
+                } catch (error) {
+                    console.error("Load user error:", error);
+                    setIsAdmin(false);
+                }
+            };
+
+            void loadUser();
+        }, []),
+    );
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>AWS問題集アプリ</Text>
-            <Text style={styles.email}>ログイン中: {email}</Text>
+            <Text style={styles.email}>ログイン中: {displayName || email}</Text>
 
             <View style={styles.button}>
                 <AppButton onPress={() => navigation.navigate("ExamList")}>
@@ -103,6 +131,9 @@ export default function HomeScreen({ navigation }: Props) {
                 </View>
             )}
 
+            <AppButton onPress={() => navigation.navigate("Profile")}>
+                プロフィール
+            </AppButton>
             <View style={styles.button}>
                 <AppButton onPress={signOut}>サインアウト</AppButton>
             </View>

@@ -102,6 +102,7 @@ const schema = a.schema({
             email: a.email(),
             displayName: a.string(),
             role: a.string().default("USER"),
+            iconPath: a.string(),
         })
         .authorization((allow) => [allow.owner(), allow.groups(["Admin"])]),
 });

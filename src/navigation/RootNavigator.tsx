@@ -18,6 +18,7 @@ import QuizHistoryScreen from "../screens/QuizHistoryScreen";
 import ReviewScreen from "../screens/ReviewScreen";
 import ResultDetailScreen from "../screens/ResultDetailScreen";
 import ExamStartScreen from "../screens/ExamStartScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 
 export type RootStackParamList = {
     Home: undefined;
@@ -49,6 +50,7 @@ export type RootStackParamList = {
     ResultDetail: {
         sessionId: string;
     };
+    Profile: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -154,6 +156,12 @@ export default function RootNavigator() {
                     name="ExamStart"
                     component={ExamStartScreen}
                     options={{ title: "試験開始" }}
+                />
+
+                <Stack.Screen
+                    name="Profile"
+                    component={ProfileScreen}
+                    options={{ title: "プロフィール" }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

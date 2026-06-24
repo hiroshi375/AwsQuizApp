@@ -810,6 +810,13 @@
               "isRequired": false,
               "attributes": []
             },
+            "iconPath": {
+              "name": "iconPath",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
             "createdAt": {
               "name": "createdAt",
               "isArray": false,
@@ -878,6 +885,27 @@
       "enums": {},
       "nonModels": {}
     }
+  },
+  "storage": {
+    "aws_region": "ap-northeast-1",
+    "bucket_name": "amplify-awsquizapp-satouh-awsquizappstoragebucket3-rhudyol0psuj",
+    "buckets": [
+      {
+        "name": "awsQuizAppStorage",
+        "bucket_name": "amplify-awsquizapp-satouh-awsquizappstoragebucket3-rhudyol0psuj",
+        "aws_region": "ap-northeast-1",
+        "paths": {
+          "profile-icons/*": {
+            "authenticated": [
+              "get",
+              "list",
+              "write",
+              "delete"
+            ]
+          }
+        }
+      }
+    ]
   },
   "version": "1.4"
 }
