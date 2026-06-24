@@ -178,9 +178,6 @@ export default function AdminExamListScreen({ navigation }: Props) {
                         </Text>
                     </Pressable>
 
-                    {/*
-                      AdminExamEditScreen を作成後に有効化してください。
-
                     <Pressable
                         style={({ pressed }) => [
                             styles.smallButton,
@@ -195,7 +192,6 @@ export default function AdminExamListScreen({ navigation }: Props) {
                     >
                         <Text style={styles.smallButtonText}>編集</Text>
                     </Pressable>
-                    */}
                 </View>
             </View>
         );

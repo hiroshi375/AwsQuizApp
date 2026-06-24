@@ -11,6 +11,7 @@ import AdminQuestionCreateScreen from "../screens/AdminQuestionCreateScreen";
 import AdminQuestionImportScreen from "../screens/AdminQuestionImportScreen";
 import AdminExamCreateScreen from "../screens/AdminExamCreateScreen";
 import AdminExamListScreen from "../screens/AdminExamListScreen";
+import AdminExamEditScreen from "../screens/AdminExamEditScreen";
 
 export type RootStackParamList = {
     Home: undefined;
@@ -25,6 +26,9 @@ export type RootStackParamList = {
     AdminQuestionImport: undefined;
     AdminExamCreate: undefined;
     AdminExamList: undefined;
+    AdminExamEdit: {
+        examId: string;
+    };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -88,6 +92,12 @@ export default function RootNavigator() {
                     name="AdminExamList"
                     component={AdminExamListScreen}
                     options={{ title: "試験情報一覧" }}
+                />
+
+                <Stack.Screen
+                    name="AdminExamEdit"
+                    component={AdminExamEditScreen}
+                    options={{ title: "試験情報編集" }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
