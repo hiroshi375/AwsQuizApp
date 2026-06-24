@@ -19,6 +19,7 @@ import ReviewScreen from "../screens/ReviewScreen";
 import ResultDetailScreen from "../screens/ResultDetailScreen";
 import ExamStartScreen from "../screens/ExamStartScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import StudyStatsScreen from "../screens/StudyStatsScreen";
 
 export type RootStackParamList = {
     Home: undefined;
@@ -51,6 +52,7 @@ export type RootStackParamList = {
         sessionId: string;
     };
     Profile: undefined;
+    StudyStats: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -162,6 +164,12 @@ export default function RootNavigator() {
                     name="Profile"
                     component={ProfileScreen}
                     options={{ title: "プロフィール" }}
+                />
+
+                <Stack.Screen
+                    name="StudyStats"
+                    component={StudyStatsScreen}
+                    options={{ title: "学習統計" }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

@@ -87,6 +87,10 @@ export default function HomeScreen({ navigation }: Props) {
                 間違えた問題を復習
             </AppButton>
 
+            <AppButton onPress={() => navigation.navigate("StudyStats")}>
+                学習統計を見る
+            </AppButton>
+
             {isAdmin && (
                 <View style={styles.button}>
                     <AppButton
