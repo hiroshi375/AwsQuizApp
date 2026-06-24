@@ -46,6 +46,10 @@ export default function HomeScreen({ navigation }: Props) {
                 </AppButton>
             </View>
 
+            <AppButton onPress={() => navigation.navigate("QuizHistory")}>
+                受験履歴を見る
+            </AppButton>
+
             {isAdmin && (
                 <View style={styles.button}>
                     <AppButton
