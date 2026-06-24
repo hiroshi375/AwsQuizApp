@@ -17,12 +17,18 @@ import AdminQuestionEditScreen from "../screens/AdminQuestionEditScreen";
 import QuizHistoryScreen from "../screens/QuizHistoryScreen";
 import ReviewScreen from "../screens/ReviewScreen";
 import ResultDetailScreen from "../screens/ResultDetailScreen";
+import ExamStartScreen from "../screens/ExamStartScreen";
 
 export type RootStackParamList = {
     Home: undefined;
     ExamList: undefined;
+    ExamStart: {
+        examId: string;
+    };
+
     Quiz: {
         examId: string;
+        mode?: "PRACTICE" | "EXAM";
     };
     Result: {
         sessionId: string;
@@ -142,6 +148,12 @@ export default function RootNavigator() {
                     name="ResultDetail"
                     component={ResultDetailScreen}
                     options={{ title: "結果詳細" }}
+                />
+
+                <Stack.Screen
+                    name="ExamStart"
+                    component={ExamStartScreen}
+                    options={{ title: "試験開始" }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

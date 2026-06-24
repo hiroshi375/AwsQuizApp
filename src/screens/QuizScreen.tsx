@@ -49,7 +49,7 @@ const APP_FONT_FAMILY = Platform.select({
 });
 
 export default function QuizScreen({ route, navigation }: Props) {
-    const { examId } = route.params;
+    const { examId, mode = "PRACTICE" } = route.params;
 
     const [questions, setQuestions] = useState<QuestionItem[]>([]);
     const [choices, setChoices] = useState<ChoiceItem[]>([]);
@@ -117,7 +117,7 @@ export default function QuizScreen({ route, navigation }: Props) {
             const sessionResult = await client.models.QuizSession.create({
                 userId: user.userId,
                 examId,
-                mode: "PRACTICE",
+                mode,
                 startedAt: new Date().toISOString(),
                 totalQuestions: 0,
                 correctCount: 0,

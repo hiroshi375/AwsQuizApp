@@ -76,7 +76,7 @@ export default function ExamListScreen({ navigation }: Props) {
 
                         <AppButton
                             onPress={() =>
-                                navigation.navigate("Quiz", {
+                                navigation.navigate("ExamStart", {
                                     examId: item.id,
                                 })
                             }
