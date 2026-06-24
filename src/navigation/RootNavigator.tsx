@@ -9,6 +9,7 @@ import QuizScreen from "../screens/QuizScreen";
 import ResultScreen from "../screens/ResultScreen";
 import AdminQuestionCreateScreen from "../screens/AdminQuestionCreateScreen";
 import AdminQuestionImportScreen from "../screens/AdminQuestionImportScreen";
+import AdminExamCreateScreen from "../screens/AdminExamCreateScreen";
 
 export type RootStackParamList = {
     Home: undefined;
@@ -21,6 +22,7 @@ export type RootStackParamList = {
     };
     AdminQuestionCreate: undefined;
     AdminQuestionImport: undefined;
+    AdminExamCreate: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -72,6 +74,12 @@ export default function RootNavigator() {
                     name="AdminQuestionImport"
                     component={AdminQuestionImportScreen}
                     options={{ title: "CSVインポート" }}
+                />
+
+                <Stack.Screen
+                    name="AdminExamCreate"
+                    component={AdminExamCreateScreen}
+                    options={{ title: "試験情報登録" }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
