@@ -21,15 +21,20 @@ export default function HomeScreen({ navigation }: Props) {
 
     useEffect(() => {
         const loadUser = async () => {
-            const user = await getCurrentUser();
-            setEmail(user.signInDetails?.loginId ?? user.username);
+            try {
+                const user = await getCurrentUser();
+                setEmail(user.signInDetails?.loginId ?? user.username);
 
-            const session = await fetchAuthSession();
-            const groups = session.tokens?.accessToken.payload[
-                "cognito:groups"
-            ] as string[] | undefined;
+                const session = await fetchAuthSession();
+                const groups = session.tokens?.accessToken.payload[
+                    "cognito:groups"
+                ] as string[] | undefined;
 
-            setIsAdmin(groups?.includes("Admin") ?? false);
+                setIsAdmin(groups?.includes("Admin") ?? false);
+            } catch (error) {
+                console.error("Load user error:", error);
+                setIsAdmin(false);
+            }
         };
 
         void loadUser();

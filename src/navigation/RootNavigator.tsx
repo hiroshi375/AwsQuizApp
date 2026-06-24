@@ -16,6 +16,7 @@ import AdminQuestionListScreen from "../screens/AdminQuestionListScreen";
 import AdminQuestionEditScreen from "../screens/AdminQuestionEditScreen";
 import QuizHistoryScreen from "../screens/QuizHistoryScreen";
 import ReviewScreen from "../screens/ReviewScreen";
+import ResultDetailScreen from "../screens/ResultDetailScreen";
 
 export type RootStackParamList = {
     Home: undefined;
@@ -39,6 +40,9 @@ export type RootStackParamList = {
     };
     QuizHistory: undefined;
     Review: undefined;
+    ResultDetail: {
+        sessionId: string;
+    };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -132,6 +136,12 @@ export default function RootNavigator() {
                     name="Review"
                     component={ReviewScreen}
                     options={{ title: "復習" }}
+                />
+
+                <Stack.Screen
+                    name="ResultDetail"
+                    component={ResultDetailScreen}
+                    options={{ title: "結果詳細" }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
